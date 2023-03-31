@@ -14,16 +14,21 @@ class UsersModel extends Model
                   return $this->getQuery($query, ['user_name' => $id])[0];
             }
       }
+      public function getTypes()
+      {
+            $query = "SELECT id_user_type, user_type FROM user_types";
+            return $this->getQuery($query);
+      }
 
       public function register($user = [])
       {
-            $query = "INSERT INTO users VALUES (:user_name, SHA2(:pass,256), 1)";
+            $query = "INSERT INTO users VALUES (:user_name, SHA2(:pass,256), :id_user_type)";
             return $this->setQuery($query, $user)[0];
       }
 
       public function update($user = [])
       {
-            $query = "UPDATE users SET pass=SHA2(:pass,256), id_user_type=:id_user_type WHERE user_name=:user_name";
+            $query = "UPDATE users SET id_user_type=:id_user_type WHERE user_name=:user_name";
             return $this->setQuery($query, $user)[0];
       }
 

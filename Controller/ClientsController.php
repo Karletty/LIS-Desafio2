@@ -121,24 +121,15 @@ class ClientsController extends Controller
             }
       }
 
-      public function signup()
-      {
-            if (!isset($_SESSION['userType'])) {
-                  $this->render("signup.php");
-            } else {
-                  header('location:' . PATH . '/Products');
-            }
-      }
-
       public function disable($id)
       {
             if ($_SESSION['userType'] == 'admin') {
                   $client = [
                         'client_email' => $id,
-                        'is_active' => false
+                        'is_active' => 0
                   ];
                   $this->model->enable($client);
-                  $this->render('index.php');
+                  header('location:' . PATH . '/Clients');
             } else {
                   renderErrorPrivilegeView();
             }
@@ -149,10 +140,10 @@ class ClientsController extends Controller
             if ($_SESSION['userType'] == 'admin') {
                   $client = [
                         'client_email' => $id,
-                        'is_active' => true
+                        'is_active' => 1
                   ];
                   $this->model->enable($client);
-                  $this->render('index.php');
+                  header('location:' . PATH . '/Clients');
             } else {
                   renderErrorPrivilegeView();
             }

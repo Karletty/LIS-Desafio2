@@ -57,7 +57,8 @@ class UsersController extends Controller
             if ($_SESSION['userType'] != 'client') {
                   $viewbag = [
                         'users' => $this->model->get(),
-                        'userType' => $_SESSION['userType']
+                        'userType' => $_SESSION['userType'],
+                        'user' => $_SESSION['user']
                   ];
 
                   $this->render('index.php', $viewbag);
@@ -66,13 +67,28 @@ class UsersController extends Controller
             }
       }
 
+      public function update($id)
+      {
+            if (isset($_POST['Save'])) {
+                  $user = [
+                        'user_name' => $id,
+                        'id_user_type' => $_POST['user_type']
+                  ];
+                  $this->model->update($user);
+                  $_SESSION['success_message'] = 'El usuario fue editado';
+            } else {
+                  $_SESSION['error_message'] = 'El no usuario fue editado, ocurrió un error';
+            }
+            header('location:' . PATH . '/Users');
+      }
+
+
+
       public function validate($user)
       {
             $errors = [];
             if (isEmpty($user['user_name'])) {
                   array_push($errors, 'Tiene que ingresar su correo');
-            } else if (!isEmail($user['user_name'])) {
-                  array_push($errors, 'Tiene que ingresar un correo válido');
             }
 
             if (isEmpty($user['pass'])) {
@@ -85,11 +101,12 @@ class UsersController extends Controller
 
       public function register()
       {
-            if (isset($_POST['register'])) {
+            if (isset($_POST['Save'])) {
                   extract($_POST);
                   $user = [
                         'user_name' => $user_name,
-                        'pass' => $pass
+                        'pass' => $pass,
+                        'id_user_type' => $user_type
                   ];
 
                   $errors = $this->validate($user);
@@ -100,15 +117,44 @@ class UsersController extends Controller
                   }
 
                   if (!count($errors)) {
-                        if ($this->model->register($users) > 0) {
-                              header('location:' . PATH . '/Products');
-                        }
+                        $this->model->register($user);
+                        $_SESSION['success_message'] = 'El usuario fue creado correctamente';
+                        header('location:' . PATH . '/Users');
                   } else {
                         array_push($errors, 'Hubo un error al crear el usuario');
                         $viewBag['errors'] = $errors;
                         $viewBag['user'] = $user;
-                        $this->render("signup.php", $viewBag);
+                        $this->render("new.php", $viewBag);
                   }
+            }
+      }
+
+      public function create()
+      {
+            if ($_SESSION['userType'] == 'admin') {
+                  $user_types = $this->model->getTypes();
+                  $viewBag = [
+                        'user_types' => $user_types
+                  ];
+                  $this->render("new.php", $viewBag);
+            } else {
+                  renderErrorPrivilegeView();
+            }
+      }
+
+      public function edit($id)
+      {
+            if ($id != $_SESSION['user']) {
+                  $user = $this->model->get($id);
+                  $user_types = $this->model->getTypes();
+                  $viewBag = [
+                        'user' => $user,
+                        'user_types' => $user_types
+                  ];
+                  $this->render("edit.php", $viewBag);
+            } else {
+                  $_SESSION['error_message'] = 'No puede editar su usuario';
+                  header('location:' . PATH . '/Users');
             }
       }
 

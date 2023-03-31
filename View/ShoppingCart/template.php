@@ -10,7 +10,7 @@
 
 <body>
       <div class="container">
-            <h1>Cotización</h1>
+            <h1>Factura</h1>
             <br />
             <table class="table table-sm table-striped ">
                   <thead>

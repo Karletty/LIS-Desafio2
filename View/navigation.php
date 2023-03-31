@@ -74,8 +74,8 @@ function printNavigate($activeItem = 'products')
                                           <li class="dropdown <?= $activeItem == 'users' ? 'active' : '' ?>">
                                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Usuarios<span class="caret"></span></a>
                                                 <ul class="dropdown-menu">
-                                                      <li><a href="<?= PATH ?>/Products/create">Registrar usuarios</a></li>
-                                                      <li><a href="<?= PATH ?>/Products">Ver lista de usuarios</a></li>
+                                                      <li><a href="<?= PATH ?>/Users/create">Registrar usuarios</a></li>
+                                                      <li><a href="<?= PATH ?>/Users">Ver lista de usuarios</a></li>
                                                 </ul>
                                           </li>
                                     <?php elseif ($_SESSION['userType'] == 'employee') : ?>

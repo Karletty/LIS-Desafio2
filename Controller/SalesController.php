@@ -1,6 +1,7 @@
 <?php
 require_once 'Controller.php';
 require_once './Model/SalesModel.php';
+require_once './Core/dateSort.php';
 require_once './Core/validations.php';
 require_once './vendor/autoload.php';
 require_once './Phpmailer/Exception.php';
@@ -27,12 +28,12 @@ class SalesController extends Controller
 
       public function index()
       {
-            if ($this->$_SESSION['userType'] != 'client') {
-                  $products = [];
+            if ($_SESSION['userType'] != 'client') {
+                  $sales = $this->model->get();
+                  uasort($sales, 'dateSort');
 
                   $viewbag = [
-                        'products' => $products,
-                        'userType' => $_SESSION['userType']
+                        'sales' => $sales
                   ];
 
                   $this->render('index.php', $viewbag);
@@ -105,14 +106,14 @@ class SalesController extends Controller
 
 
                   //Usuario con contraseña autorizada por gmail
-                  $mail->Username = "pepeshoes01lis@gmail.com";
+                  $mail->Username = "textil.export1234@gmail.com";
                   // SMTP account username (GMail email address).
-                  $mail->Password = 'ztxxaurpsyvgxrco';
+                  $mail->Password = 'pxdzgqcjfptiwale';
                   // Contraseña creada a partir de google,
                   // para permisos de aplicacion
 
                   //Envio de mensaje
-                  $mail->SetFrom('pepeshoes01lis@gmail.com', 'Textil Export');
+                  $mail->SetFrom('textil.export1234@gmail.com', 'Textil Export');
                   // De quien - match the GMail email.
                   $mail->AddAddress($userMail, 'Someone Else');
                   // Para email / name.
@@ -181,9 +182,11 @@ class SalesController extends Controller
                   $errors['exp_date'] = validateDate($_POST['exp_date']);
                   if (count($errors) != 0) {
                         $file = $this->createPDF();
+                        $date = getdate()['mday'] . '/' . getdate()['mon'] . '/' . getdate()['year'];
                         $sale = [
                               'id_client' => $_SESSION['user'],
-                              'file_path' => $file
+                              'file_path' => $file,
+                              'sale_date' => $date
                         ];
                         $id_sale = $this->model->insertSale($sale);
                         foreach ($_SESSION['shopping_cart'] as $product => $value) {

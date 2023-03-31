@@ -30,6 +30,7 @@ CREATE TABLE `sales`(
 	`id_sale` int NOT NULL AUTO_INCREMENT,
     `id_client` varchar(50) NOT NULL,
     `file_path` varchar(50) NOT NULL,
+    `sale_date` varchar(10) NOT NULL,
     PRIMARY KEY (`id_sale`),
     FOREIGN KEY (`id_client`) REFERENCES `clients`(`client_email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -37,8 +38,8 @@ CREATE TABLE `sales`(
 CREATE TABLE `sales_details`(
 	`id_sales_detail` int NOT NULL AUTO_INCREMENT,
     `id_sale` int NOT NULL,
-    `quantity` int NOT NULL,
     `id_product` varchar(9) NOT NULL,
+    `quantity` int NOT NULL,
     PRIMARY KEY (`id_sales_detail`),
     FOREIGN KEY (`id_sale`) REFERENCES `sales`(`id_sale`),
     FOREIGN KEY (`id_product`) REFERENCES `products`(`id_product`)
@@ -74,6 +75,17 @@ INSERT INTO `categories` (`id_category`, `category_name`) VALUES
 ('CAT001', 'Textil'),
 ('CAT002', 'Promocional');
 
+INSERT INTO `sales` (`id_sale`, `id_client`, `file_path`, `sale_date`) VALUES
+(1, 'karletty.carolina@gmail.com', 'karletty.carolina_f5f84875.pdf','31/3/2023'),
+(2, 'karletty.carolina@gmail.com', 'karletty.carolina_061ff403.pdf','20/3/2023'),
+(3, 'karletty.carolina@gmail.com', 'karletty.carolina_6d9889c7.pdf','31/3/2022'),
+(4, 'karletty.carolina@gmail.com', 'karletty.carolina_f20e2286.pdf','24/12/2022'),
+(5, 'karletty.carolina@gmail.com', 'karletty.carolina_23af8138.pdf','31/3/2023'),
+(6, 'karletty.carolina@gmail.com', 'karletty.carolina_c1a1c209.pdf','31/3/2023'),
+(7, 'karletty.carolina@gmail.com', 'karletty.carolina_b1fb6832.pdf','31/3/2023'),
+(8, 'karletty.carolina@gmail.com', 'karletty.carolina_6d999f5e.pdf','31/3/2023'),
+(9, 'karletty.carolina@gmail.com', 'karletty.carolina_42f59864.pdf','31/3/2023');
+
 INSERT INTO `products` (`id_product`, `product_name`, `product_description`, `img`, `id_category`, `price`, `stock`) VALUES
 ('PROD00001', 'Camiseta de algodón cuello redondo', 'Camiseta Mod. 1, elaborada en algodón de 200 grs. cuello redondo decorado, manga corta, costuras en cierres laterales.', 'PROD00001.jpg', 'CAT001', 2.50, 500),
 ('PROD00002', 'Camiseta de algodón cuello V', 'Camiseta Mod. 2, elaborada en algodón de 200 grs. cuello en V decorado, manga corta, costuras en cierres laterales.', 'PROD00002.jpg', 'CAT001', 2.90, 462),
@@ -92,3 +104,14 @@ INSERT INTO `products` (`id_product`, `product_name`, `product_description`, `im
 ('PROD00015', 'Mochila', 'Mochila en acabado denim 600D, de diseño urbano, con acolchado total en todo el cuerpo y cintas de hombros. Bolsa exterior con cierre de zipper, asas de transporte y cintas de hombros reforzadas a juego y compartimento interior acolchado para portátil de hasta 15 pulgadas.', 'PROD00015.jpg', 'CAT002', 12.0, 500),
 ('PROD00016', 'Power Bank', 'Batería auxiliar externa de aluminio en llamativos colores de 2.200 mAh de capacidad de carga, con botón y ledes indicadores de carga. Cable micro USB incluido y amplia superficie de marcaje, Presentada en atractiva caja de diseño. Las capacidades mostradas en todas nuestras baterías auxiliares externas son reales, incorporando todas ellas baterías de grado A y no recicladas, con una vida útil de al menos 500 ciclos de carga y según normativa CE. Además, están fabricadas conforme a los estándares RoHS y en cumplimiento con los siguientes requisitos de seguridad: Sistema de protección contra sobrecarga del power bank. Sistema de protección contra descarga completa que proporciona una mayor durabilidad del power bank. Sistema de bloqueo para evitar cortocircuitos. Sistema de transferencia de carga constante, acorde con la capacidad del dispositivo de destino.', 'PROD00016.jpg', 'CAT002', 5.50, 500);
 
+INSERT INTO `sales_details` (`id_sale`, `quantity`, `id_product`) VALUES
+(1, 1, 3, 'PROD00001'),
+(2, 1, 1, 'PROD00002'),
+(3, 2, 1, 'PROD00008'),
+(4, 3, 1, 'PROD00001'),
+(5, 4, 1, 'PROD00001'),
+(6, 5, 1, 'PROD00001'),
+(7, 6, 1, 'PROD00002'),
+(8, 7, 1, 'PROD00001'),
+(9, 8, 1, 'PROD00001'),
+(10, 9, 1, 'PROD00001');
