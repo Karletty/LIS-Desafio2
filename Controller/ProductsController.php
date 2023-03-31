@@ -54,14 +54,13 @@ class ProductsController extends Controller
       {
             $errors = [];
             extract($product);
-
             if (isEmpty($id_product)) {
                   $errors['id_product'] = 'Debe ingresar el código del producto';
             } elseif (!isIdProduct($id_product)) {
                   $errors['id_product'] = 'Debe ingresar un código con el formato PROD#####';
             }
 
-            if (isEmpty($product_name) || !isText($product_name)) {
+            if (isEmpty($product_name)) {
                   $errors['product_name'] = 'Debe ingresar el nombre del producto';
             }
 
@@ -79,7 +78,7 @@ class ProductsController extends Controller
                   $errors['price'] = 'Debe ingresar un precio válido';
             }
 
-            if (isEmpty($stock) || !is_numeric(trim($stock))) {
+            if (!is_numeric(trim($stock))) {
                   $errors['stock'] = 'Debe ingresar una cantidad de existencias válida';
             }
 
@@ -115,7 +114,6 @@ class ProductsController extends Controller
                               }
 
                               $product['img'] = $id_product . $extension;
-                              var_dump($_FILES["product_img"]);
                               $origin = $_FILES["product_img"]["tmp_name"];
                               $destiny = './View/assets/img/' . $id_product . $extension;
 
@@ -128,7 +126,7 @@ class ProductsController extends Controller
                               $viewBag['errors'] = $errors;
                               $viewBag['product'] = $product;
                               $viewBag['categories'] = $this->catModel->get();
-                              $this->render("new.php", $viewBag);
+                              // $this->render("new.php", $viewBag);
                         }
                   }
             } else {
@@ -152,6 +150,7 @@ class ProductsController extends Controller
             if ($_SESSION['userType'] != 'client') {
                   $viewBag = array();
                   $viewBag['product'] = $this->model->get($id);
+                  $viewBag['categories'] = $this->catModel->get();
                   $this->render("edit.php", $viewBag);
             } else {
                   renderErrorPrivilegeView();
@@ -162,6 +161,7 @@ class ProductsController extends Controller
             if ($_SESSION['userType'] != 'client') {
                   if (isset($_POST['Save'])) {
                         extract($_POST);
+                        var_dump($_POST);
                         $product = [
                               'id_product' => $id,
                               'product_name' => $product_name,
@@ -175,13 +175,13 @@ class ProductsController extends Controller
 
                         if (!count($errors)) {
                               $extension = '.png';
-                              if ($_FILES["product-img"]["type"] == "image/jpeg") {
+                              if ($_FILES["product_img"]["type"] == "image/jpeg") {
                                     $extension = '.jpg';
                               }
 
-                              $product['img'] = $id_product . $extension;
-                              $origin = $_FILES["product_img"]["temp_name"];
-                              $destiny = './View/assets/img/' . $id_product . $extension;
+                              $product['img'] = $id . $extension;
+                              $origin = $_FILES["product_img"]["tmp_name"];
+                              $destiny = './View/assets/img/' . $id . $extension;
 
                               if (@move_uploaded_file($origin, $destiny) && $this->model->update($product) > 0) {
                                     $_SESSION['success_message'] = "Producto editado exitosamente";
@@ -191,6 +191,7 @@ class ProductsController extends Controller
                               $_SESSION['error_message'] = "Hubo un error al editar el producto";
                               $viewBag['errors'] = $errors;
                               $viewBag['product'] = $product;
+                              $viewBag['categories'] = $this->catModel->get();
                               $this->render("edit.php", $viewBag);
                         }
                   }

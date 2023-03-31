@@ -13,20 +13,19 @@ printHead('Nuevo producto');
 <body>
       <?php
       printNavigate('products');
-      var_dump($_FILES);
       ?>
       <div class="container">
             <header>
                   <h1>Nuevo producto</h1>
             </header>
             <main class="col-md-7">
-                  <form role="form" action="<?= PATH ?>/Products/update" method="POST" enctype="multipart/form-data">
+                  <form role="form" action="<?= PATH ?>/Products/update/<?= $product['id_product'] ?>" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="op" value="insertar" />
                         <div class="well well-sm"><strong><span class="glyphicon glyphicon-asterisk"></span>Campos requeridos</strong></div>
                         <div class="form-group mb-2">
                               <label for="id_product">Codigo del producto:</label>
                               <div class="input-group">
-                                    <input type="text" class="form-control" name="id_product" id="id_product" placeholder="PROD#####" value="<?= isset($product) ? $product['id_product'] : '' ?>">
+                                    <input type="text" class="form-control" name="id_product" id="id_product" placeholder="PROD#####" value="<?= isset($product) ? $product['id_product'] : '' ?>" disabled>
                                     <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
                               </div>
                               <?php
@@ -78,7 +77,7 @@ printHead('Nuevo producto');
                                           <?php
                                           foreach ($categories as $cat) {
                                           ?>
-                                          <option value="<?= $cat['id_category'] ?>"><?= $cat['category_name'] ?></option>
+                                                <option value="<?= $cat['id_category'] ?>"><?= $cat['category_name'] ?></option>
                                           <?php
                                           }
                                           ?>

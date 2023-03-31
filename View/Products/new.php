@@ -13,7 +13,6 @@ printHead('Nuevo producto');
 <body>
       <?php
       printNavigate('products');
-      var_dump($_FILES);
       ?>
       <div class="container">
             <header>
