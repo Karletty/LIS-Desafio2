@@ -1,17 +1,20 @@
 <?php
 require_once 'Controller.php';
 require_once './Model/ProductsModel.php';
+require_once './Model/CategoriesModel.php';
 require_once './Core/validations.php';
 
 
 class ProductsController extends Controller
 {
       private $model;
+      private $catModel;
 
       function __construct()
       {
-            if(isset($_SESSION['userType'])) {
+            if (isset($_SESSION['userType'])) {
                   $this->model = new ProductsModel();
+                  $this->catModel = new CategoriesModel();
                   $_SESSION['userType'] = $_SESSION['userType'];
             } else {
                   header('location:' . PATH . '/Clients/login');
@@ -23,14 +26,14 @@ class ProductsController extends Controller
             if ($_SESSION['userType'] != 'client') {
                   $viewbag = [
                         'products' => $this->model->get(),
-                        'userType' =>$_SESSION['userType']
+                        'userType' => $_SESSION['userType']
                   ];
 
                   $this->render('index.php', $viewbag);
             } else {
                   $viewbag = [
                         'products' => $this->model->get(),
-                        'userType' =>$_SESSION['userType']
+                        'userType' => $_SESSION['userType']
                   ];
                   $this->render('displayProducts.php', $viewbag);
             }
@@ -40,7 +43,8 @@ class ProductsController extends Controller
       public function create()
       {
             if ($_SESSION['userType'] != 'client') {
-                  $this->render('new.php');
+                  $viewBag['categories'] = $this->catModel->get();
+                  $this->render('new.php', $viewBag);
             } else {
                   renderErrorPrivilegeView();
             }
@@ -66,16 +70,16 @@ class ProductsController extends Controller
             }
 
             if (!isset($_FILES['product_img'])) {
-                  $errors['product_name'] = 'Debe ingresar una imagen';
-            } elseif ($_FILES["product_img"]["type"] == "image/jpeg" || $_FILES["product_img"]["type"] == "image/png") {
-                  $errors['product_name'] = 'Debe ingresar una imagen JPG o PNG';
+                  $errors['img'] = 'Debe ingresar una imagen';
+            } elseif ($_FILES["product_img"]["type"] != "image/jpeg" && $_FILES["product_img"]["type"] != "image/png") {
+                  $errors['img'] = 'Debe ingresar una imagen JPG o PNG';
             }
 
-            if (isEmpty($price) || !isNumeric($price)) {
+            if (isEmpty($price) || !is_numeric(trim($price))) {
                   $errors['price'] = 'Debe ingresar un precio válido';
             }
 
-            if (isEmpty($stock) || !isNumeric($stock)) {
+            if (isEmpty($stock) || !is_numeric(trim($stock))) {
                   $errors['stock'] = 'Debe ingresar una cantidad de existencias válida';
             }
 
@@ -88,7 +92,7 @@ class ProductsController extends Controller
                   if (isset($_POST['Save'])) {
                         extract($_POST);
                         $product = [
-                              'id_product' => $id,
+                              'id_product' => $id_product,
                               'product_name' => $product_name,
                               'product_description' => $product_description,
                               'img' => '',
@@ -106,12 +110,13 @@ class ProductsController extends Controller
 
                         if (!count($errors)) {
                               $extension = '.png';
-                              if ($_FILES["product-img"]["type"] == "image/jpeg") {
+                              if ($_FILES["product_img"]["type"] == "image/jpeg") {
                                     $extension = '.jpg';
                               }
 
                               $product['img'] = $id_product . $extension;
-                              $origin = $_FILES["product_img"]["temp_name"];
+                              var_dump($_FILES["product_img"]);
+                              $origin = $_FILES["product_img"]["tmp_name"];
                               $destiny = './View/assets/img/' . $id_product . $extension;
 
                               if (@move_uploaded_file($origin, $destiny) && $this->model->insert($product) > 0) {
@@ -122,6 +127,7 @@ class ProductsController extends Controller
                               $_SESSION['error_message'] = "Hubo un error al crear el producto";
                               $viewBag['errors'] = $errors;
                               $viewBag['product'] = $product;
+                              $viewBag['categories'] = $this->catModel->get();
                               $this->render("new.php", $viewBag);
                         }
                   }
@@ -193,7 +199,8 @@ class ProductsController extends Controller
             }
       }
 
-      public function details($id){
-          echo json_encode($this->model->get($id));
+      public function details($id)
+      {
+            echo json_encode($this->model->get($id));
       }
 }

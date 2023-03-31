@@ -9,11 +9,6 @@ function isText($var)
       return preg_match('/^[a-zA-Z ]+$/', $var);
 }
 
-function isNumeric($var)
-{
-      return isNumeric(trim($var));
-}
-
 function isEmail($var)
 {
       return filter_var($var, FILTER_VALIDATE_EMAIL);

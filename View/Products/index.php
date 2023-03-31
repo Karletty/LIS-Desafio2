@@ -45,7 +45,7 @@ printHead('Productos');
                                                 <td><?= $product['stock'] ?></td>
                                                 <td>
                                                       <a class="btn btn-success" href="<?= PATH . '/Products/edit/' . $product['id_product'] ?>"><span class="glyphicon glyphicon-edit"></span></a>
-                                                      <a title="Eliminar" class="btn btn-danger btn-circle" href="<?= PATH . '/Product/remove/' . $product['id_product'] ?>"><span class="glyphicon glyphicon-trash"></span></a>
+                                                      <a title="Eliminar" class="btn btn-danger btn-circle" href="<?= PATH . '/Products/remove/' . $product['id_product'] ?>"><span class="glyphicon glyphicon-trash"></span></a>
                                                 </td>
                                           </tr>
 
