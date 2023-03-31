@@ -18,13 +18,13 @@ class UsersModel extends Model
       public function register($user = [])
       {
             $query = "INSERT INTO users VALUES (:user_name, SHA2(:pass,256), 1)";
-            return $this->setQuery($query, $user);
+            return $this->setQuery($query, $user)[0];
       }
 
       public function update($user = [])
       {
             $query = "UPDATE users SET pass=SHA2(:pass,256), id_user_type=:id_user_type WHERE user_name=:user_name";
-            return $this->setQuery($query, $user);
+            return $this->setQuery($query, $user)[0];
       }
 
       public function validate($user, $pass)
@@ -37,6 +37,6 @@ class UsersModel extends Model
       public function remove($id)
       {
             $query = "DELETE FROM users WHERE user_name=:user_name";
-            return $this->setQuery($query, ['user_name' => $id]);
+            return $this->setQuery($query, ['user_name' => $id])[0];
       }
 }

@@ -7,7 +7,6 @@ require_once './Core/validations.php';
 class ClientsController extends Controller
 {
       private $model;
-      private $userType;
 
       function __construct()
       {

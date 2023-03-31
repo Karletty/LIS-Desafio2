@@ -2,7 +2,7 @@
 require_once('./View/printHead.php');
 require_once('./View/navigation.php');
 
-printHead('Products');
+printHead('Productos');
 ?>
 
 <body>
@@ -10,10 +10,10 @@ printHead('Products');
       printNavigate('products');
       ?>
       <div class="container">
-            <div class="row">
+            <header>
                   <h1>Productos</h1>
-            </div>
-            <div class="row">
+            </header>
+            <main>
                   <div class="grid">
                         <?php
                         foreach ($products as $product) {
@@ -33,9 +33,9 @@ printHead('Products');
                                                 </div>
                                           </div>
                                           <div class="card-footer d-flex flex-column justify-content-end">
-                                                <form action="./ShoppingCart/add" method="post" class="d-flex">
+                                                <form action="./ShoppingCart/add/<?=$product['id_product']?>" method="post" class="d-flex">
                                                       <input type="number" name="quantity" id="quantity" min=1 max=<?= $product['stock']  ?> class="form-control me-10" value="1">
-                                                      <button type="submit" class="btn btn-primary"><i class="bi bi-bag-plus-fill"></i></button>
+                                                      <button type="submit" name="add" class="btn btn-primary"><i class="bi bi-bag-plus-fill"></i></button>
                                                 </form>
                                                 <a data-toggle="tooltip" title="Detalle" class="btn btn-primary btn-circle mt-10" href="javascript:void(0)" onclick="details('<?= $product['id_product'] ?>')">Ver detalle</span></a>
                                           </div>

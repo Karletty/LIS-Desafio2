@@ -18,7 +18,7 @@ class ClientsModel extends Model
       public function register($client = [])
       {
             $query = "INSERT INTO clients VALUES (:client_email, :is_active, SHA2(:pass,256))";
-            return $this->setQuery($query, $client);
+            return $this->setQuery($query, $client)[0];
       }
 
       public function validate($user, $pass)
@@ -31,6 +31,6 @@ class ClientsModel extends Model
       public function enable($client = [])
       {
             $query = "UPDATE clients SET is_active=:is_active WHERE client_email=:client_email";
-            return $this->setQuery($query, $client);
+            return $this->setQuery($query, $client)[0];
       }
 }

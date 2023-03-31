@@ -7,13 +7,12 @@ require_once './Core/validations.php';
 class CategoriesController extends Controller
 {
       private $model;
-      private $userType;
 
       function __construct()
       {
             if (isset($_SESSION['userType'])) {
                   $this->model = new CategoriesModel();
-                  $this->userType = $_SESSION['userType'];
+                  $_SESSION['userType'] = $_SESSION['userType'];
             } else {
                   header('location:' . PATH . '/Clients/login');
             }
@@ -21,10 +20,10 @@ class CategoriesController extends Controller
 
       public function index()
       {
-            if ($this->userType != 'client') {
+            if ($_SESSION['userType'] != 'client') {
                   $viewbag = [
                         'categories' => $this->model->get(),
-                        'userType' => $this->userType
+                        'userType' => $_SESSION['userType']
                   ];
 
                   $this->render('index.php', $viewbag);
@@ -36,7 +35,7 @@ class CategoriesController extends Controller
 
       public function create()
       {
-            if ($this->userType == 'admin') {
+            if ($_SESSION['userType'] == 'admin') {
                   $this->render('new.php');
             } else {
                   renderErrorPrivilegeView();
@@ -62,7 +61,7 @@ class CategoriesController extends Controller
 
       public function add()
       {
-            if ($this->userType == 'admin') {
+            if ($_SESSION['userType'] == 'admin') {
                   if (isset($_POST['Save'])) {
                         extract($_POST);
                         $category = [
@@ -95,7 +94,7 @@ class CategoriesController extends Controller
 
       public function remove($id)
       {
-            if ($this->userType == 'admin') {
+            if ($_SESSION['userType'] == 'admin') {
                   $this->model->remove($id);
                   $_SESSION['success_message'] = "Categoría eliminada exitosamente";
                   header('location:' . PATH . '/Categories');
@@ -106,7 +105,7 @@ class CategoriesController extends Controller
 
       public function edit($id)
       {
-            if ($this->userType == 'admin') {
+            if ($_SESSION['userType'] == 'admin') {
                   $viewBag = array();
                   $viewBag['category'] = $this->model->get($id);
                   $this->render("edit.php", $viewBag);
@@ -116,7 +115,7 @@ class CategoriesController extends Controller
       }
       public function update($id)
       {
-            if ($this->userType == 'admin') {
+            if ($_SESSION['userType'] == 'admin') {
                   if (isset($_POST['Save'])) {
                         extract($_POST);
                         $category = [

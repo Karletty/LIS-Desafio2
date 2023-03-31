@@ -34,11 +34,11 @@ function printNavigate($controller, $activeItem = 'c_signup')
                               <?php
                               if ($controller == 'client') :
                               ?>
-                                    <li class="<?= $activeItem == 'c_signup' ?  'active' : '' ?>">
-                                          <a href="<?= PATH ?>/Clients/signup">Signup</a>
-                                    </li>
                                     <li class="<?= $activeItem == 'c_login' ?  'active' : '' ?>">
                                           <a href="<?= PATH ?>/Clients/login">Login</a>
+                                    </li>
+                                    <li class="<?= $activeItem == 'c_signup' ?  'active' : '' ?>">
+                                          <a href="<?= PATH ?>/Clients/signup">Signup</a>
                                     </li>
                                     <li class="<?= $activeItem == 'u_login' ?  'active' : '' ?>">
                                           <a href="<?= PATH ?>/Users/login">Soy un administrador/empleado</a>

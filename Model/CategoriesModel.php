@@ -18,18 +18,18 @@ class CategoriesModel extends Model
       public function insert($category = [])
       {
             $query = "INSERT INTO categories VALUES (:id_category, :category_name)";
-            return $this->setQuery($query, $category);
+            return $this->setQuery($query, $category)[0];
       }
 
       public function update($category = [])
       {
             $query = "UPDATE categories SET category_name=:category_name WHERE id_category=:id_category";
-            return $this->setQuery($query, $category);
+            return $this->setQuery($query, $category)[0];
       }
 
       public function remove($id)
       {
             $query = "DELETE FROM categories WHERE id_category=:id_category";
-            return $this->setQuery($query, ['id_category' => $id]);
+            return $this->setQuery($query, ['id_category' => $id])[0];
       }
 }

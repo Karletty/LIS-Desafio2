@@ -5,7 +5,7 @@ abstract class Model
       private $user = "root";
       private $pass = "123456";
       private $db = "textil_export";
-      private $conn;
+      protected $conn;
 
       protected function openConnection()
       {
@@ -43,12 +43,12 @@ abstract class Model
                   $st = $this->conn->prepare($query);
                   $st->execute($params);
                   $affectedRows = $st->rowCount();
+                  return [$affectedRows, $this->conn->lastInsertId()];
                   $this->closeConnection();
-                  return $affectedRows;
             } catch (Exception $e) {
                   echo $e->getMessage();
                   $this->closeConnection();
-                  return -1;
+                  return [-1, null];
             }
       }
 }

@@ -40,6 +40,13 @@ function printNavigate($activeItem = 'products')
                                     <li class="<?= $activeItem == 'shopping_cart' ?  'active' : '' ?>">
                                           <a href="<?= PATH ?>/ShoppingCart">Carrito</a>
                                     </li>
+
+                                    <li>
+                                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $_SESSION['user'] ?><span class="caret"></span></a>
+                                          <ul class="dropdown-menu">
+                                                <li><a href="<?= PATH ?>/Clients/logout">Cerrar sesión</a></li>
+                                          </ul>
+                                    </li>
                               <?php
                               else :
                               ?>
@@ -79,9 +86,16 @@ function printNavigate($activeItem = 'products')
                                                 <a href="<?= PATH ?>/Usuarios">Usuarios</a>
                                           </li>
                                     <?php endif; ?>
-                                          <li class=" <?= $activeItem == 'clientes' ? 'active' : '' ?>">
-                                                <a href="<?= PATH ?>/Clients">Clientes</a>
-                                          </li>
+                                    <li class=" <?= $activeItem == 'clientes' ? 'active' : '' ?>">
+                                          <a href="<?= PATH ?>/Clients">Clientes</a>
+                                    </li>
+
+                                    <li>
+                                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $_SESSION['user'] ?><span class="caret"></span></a>
+                                          <ul class="dropdown-menu">
+                                                <li><a href="<?= PATH ?>/Clients/logout">Cerrar sesión</a></li>
+                                          </ul>
+                                    </li>
                               <?php
                               endif;
                               ?>

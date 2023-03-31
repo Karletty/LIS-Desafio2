@@ -29,6 +29,7 @@ CREATE TABLE `clients`(
 CREATE TABLE `sales`(
 	`id_sale` int NOT NULL AUTO_INCREMENT,
     `id_client` varchar(50) NOT NULL,
+    `file_path` varchar(50) NOT NULL,
     PRIMARY KEY (`id_sale`),
     FOREIGN KEY (`id_client`) REFERENCES `clients`(`client_email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -90,3 +91,4 @@ INSERT INTO `products` (`id_product`, `product_name`, `product_description`, `im
 ('PROD00014', 'Gorra de poliester', 'Gorra de 5 paneles con visera plana acolchada y parte trasera en redecilla a juego. Material 100% poliéster de suave acabado, con cierre ajustable de botones y en variada gama de vivos colores.', 'PROD00014.jpg', 'CAT002', 2.75, 500),
 ('PROD00015', 'Mochila', 'Mochila en acabado denim 600D, de diseño urbano, con acolchado total en todo el cuerpo y cintas de hombros. Bolsa exterior con cierre de zipper, asas de transporte y cintas de hombros reforzadas a juego y compartimento interior acolchado para portátil de hasta 15 pulgadas.', 'PROD00015.jpg', 'CAT002', 12.0, 500),
 ('PROD00016', 'Power Bank', 'Batería auxiliar externa de aluminio en llamativos colores de 2.200 mAh de capacidad de carga, con botón y ledes indicadores de carga. Cable micro USB incluido y amplia superficie de marcaje, Presentada en atractiva caja de diseño. Las capacidades mostradas en todas nuestras baterías auxiliares externas son reales, incorporando todas ellas baterías de grado A y no recicladas, con una vida útil de al menos 500 ciclos de carga y según normativa CE. Además, están fabricadas conforme a los estándares RoHS y en cumplimiento con los siguientes requisitos de seguridad: Sistema de protección contra sobrecarga del power bank. Sistema de protección contra descarga completa que proporciona una mayor durabilidad del power bank. Sistema de bloqueo para evitar cortocircuitos. Sistema de transferencia de carga constante, acorde con la capacidad del dispositivo de destino.', 'PROD00016.jpg', 'CAT002', 5.50, 500);
+

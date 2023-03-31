@@ -7,13 +7,12 @@ require_once './Core/validations.php';
 class ProductsController extends Controller
 {
       private $model;
-      private $userType;
 
       function __construct()
       {
             if(isset($_SESSION['userType'])) {
                   $this->model = new ProductsModel();
-                  $this->userType = $_SESSION['userType'];
+                  $_SESSION['userType'] = $_SESSION['userType'];
             } else {
                   header('location:' . PATH . '/Clients/login');
             }
@@ -21,17 +20,17 @@ class ProductsController extends Controller
 
       public function index()
       {
-            if ($this->userType != 'client') {
+            if ($_SESSION['userType'] != 'client') {
                   $viewbag = [
                         'products' => $this->model->get(),
-                        'userType' =>$this->userType
+                        'userType' =>$_SESSION['userType']
                   ];
 
                   $this->render('index.php', $viewbag);
             } else {
                   $viewbag = [
                         'products' => $this->model->get(),
-                        'userType' =>$this->userType
+                        'userType' =>$_SESSION['userType']
                   ];
                   $this->render('displayProducts.php', $viewbag);
             }
@@ -40,7 +39,7 @@ class ProductsController extends Controller
 
       public function create()
       {
-            if ($this->userType != 'client') {
+            if ($_SESSION['userType'] != 'client') {
                   $this->render('new.php');
             } else {
                   renderErrorPrivilegeView();
@@ -85,7 +84,7 @@ class ProductsController extends Controller
 
       public function add()
       {
-            if ($this->userType != 'client') {
+            if ($_SESSION['userType'] != 'client') {
                   if (isset($_POST['Save'])) {
                         extract($_POST);
                         $product = [
@@ -133,7 +132,7 @@ class ProductsController extends Controller
 
       public function remove($id)
       {
-            if ($this->userType != 'client') {
+            if ($_SESSION['userType'] != 'client') {
                   $this->model->remove($id);
                   $_SESSION['success_message'] = "Producto eliminado exitosamente";
                   header('location:' . PATH . '/Products');
@@ -144,7 +143,7 @@ class ProductsController extends Controller
 
       public function edit($id)
       {
-            if ($this->userType != 'client') {
+            if ($_SESSION['userType'] != 'client') {
                   $viewBag = array();
                   $viewBag['product'] = $this->model->get($id);
                   $this->render("edit.php", $viewBag);
@@ -154,7 +153,7 @@ class ProductsController extends Controller
       }
       public function update($id)
       {
-            if ($this->userType != 'client') {
+            if ($_SESSION['userType'] != 'client') {
                   if (isset($_POST['Save'])) {
                         extract($_POST);
                         $product = [
